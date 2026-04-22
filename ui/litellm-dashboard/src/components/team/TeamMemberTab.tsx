@@ -20,9 +20,9 @@ const formatRelativeTime = (target: Date): string => {
   if (abs < 60) return RELATIVE_TIME_FORMAT.format(diffSec, "second");
   const diffMin = Math.round(diffSec / 60);
   if (Math.abs(diffMin) < 60) return RELATIVE_TIME_FORMAT.format(diffMin, "minute");
-  const diffHr = Math.round(diffMin / 60);
+  const diffHr = Math.round(diffSec / 3600);
   if (Math.abs(diffHr) < 24) return RELATIVE_TIME_FORMAT.format(diffHr, "hour");
-  const diffDay = Math.round(diffHr / 24);
+  const diffDay = Math.round(diffSec / 86400);
   return RELATIVE_TIME_FORMAT.format(diffDay, "day");
 };
 
