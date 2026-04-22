@@ -34,20 +34,21 @@ const formatBudgetReset = (
   const presetLabel = budgetDuration
     ? BUDGET_WINDOW_OPTIONS.find((o) => o.value === budgetDuration)?.label
     : undefined;
-  const label = budgetDuration ?? "";
   if (!budgetResetAt) {
-    return { label, tooltip: presetLabel ?? budgetDuration ?? "" };
+    const fallback = presetLabel ?? budgetDuration ?? "";
+    return { label: fallback, tooltip: fallback };
   }
   const date = new Date(budgetResetAt);
   const isPastDue = date.getTime() <= Date.now();
+  const shortDate = date.toLocaleDateString(undefined, { month: "short", day: "numeric" });
   const relative = isPastDue ? "resetting any moment now" : `resets ${formatRelativeTime(date)}`;
   const absolute = date.toLocaleString();
   const cycleSuffix = budgetDuration
-    ? `. Cycle: ${presetLabel ? `${presetLabel} (${budgetDuration})` : budgetDuration}.`
-    : ".";
+    ? ` Cycle: ${presetLabel ? `${presetLabel} (${budgetDuration})` : budgetDuration}.`
+    : "";
   return {
-    label: label || relative,
-    tooltip: `Next reset: ${absolute}${cycleSuffix} ${relative.charAt(0).toUpperCase() + relative.slice(1)}.`,
+    label: shortDate,
+    tooltip: `Next reset: ${absolute}.${cycleSuffix} ${relative.charAt(0).toUpperCase() + relative.slice(1)}.`,
   };
 };
 
